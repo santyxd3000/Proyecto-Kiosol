@@ -43,19 +43,15 @@ for i in range(y_cb_cr_img.shape[0]):
             spi_s = spi_s + y_cb_cr_img[i, j, 0]
             n_s += 1
 
-# get the average pixel intensities in the lit areas
 average_ld = spi_la / n_la
 
-# get the average pixel intensities in the shadow
 average_le = spi_s / n_s
 
-# difference of the pixel intensities in the shadow and lit areas
 i_diff = average_ld - average_le
 
-# get the ratio between average shadow pixels and average lit pixels
 ratio_as_al = average_ld / average_le
 
-# added these difference
+
 for i in range(y_cb_cr_img.shape[0]):
     for j in range(y_cb_cr_img.shape[1]):
         if erosion[i, j, 0] == 255 and erosion[i, j, 1] == 255 and erosion[i, j, 2] == 255:
@@ -63,11 +59,9 @@ for i in range(y_cb_cr_img.shape[0]):
             y_cb_cr_img[i, j] = [y_cb_cr_img[i, j, 0] + i_diff, y_cb_cr_img[i, j, 1] + ratio_as_al,
                                  y_cb_cr_img[i, j, 2] + ratio_as_al]
 
-# covert the YCbCr image to the BGR image
 final_image = cv2.cvtColor(y_cb_cr_img, cv2.COLOR_YCR_CB2BGR)
 
 cv2.imshow("im1", or_img)
 cv2.imshow("im2", final_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
